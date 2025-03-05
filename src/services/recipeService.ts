@@ -88,10 +88,10 @@ export const cuisineTypeOptions = [
 ];
 
 // Edamam API configuration
-// Note: In a production app, these would be stored in environment variables
-const APP_ID = "4414e6ea"; // This is a demo app ID and should be replaced with a real one
-const APP_KEY = "76c11f278d8e5ba3cedee1141a1b6d11"; // This is a demo app key and should be replaced with a real one
-const BASE_URL = "https://api.edamam.com/api/recipes/v2";
+// Updated with the specific credentials provided
+const APP_ID = "1cca6c9e";
+const APP_KEY = "efcce1fe33a0d50554e770dd746995d2";
+const BASE_URL = "https://api.edamam.com/search";
 
 export const searchRecipes = async (
   query: string,
@@ -102,7 +102,6 @@ export const searchRecipes = async (
   try {
     // Build URL with search query and filters
     const params = new URLSearchParams({
-      type: "public",
       q: query,
       app_id: APP_ID,
       app_key: APP_KEY,
@@ -137,24 +136,29 @@ export const searchRecipes = async (
 // Get recipe by ID
 export const getRecipeById = async (id: string): Promise<Recipe | null> => {
   try {
-    // The ID from the URI needs to be encoded
+    // For the search API, we need to re-query and find the recipe by ID
+    // This is different from the recipes/v2 endpoint which has a direct ID lookup
     const recipeId = id.replace("http://www.edamam.com/ontologies/edamam.owl#recipe_", "");
     
     const params = new URLSearchParams({
-      type: "public",
       app_id: APP_ID,
       app_key: APP_KEY,
-      id: recipeId,
+      q: recipeId,
     });
 
-    const response = await fetch(`${BASE_URL}/${recipeId}?${params.toString()}`);
+    const response = await fetch(`${BASE_URL}?${params.toString()}`);
     
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
     }
 
     const data = await response.json();
-    return data.recipe as Recipe;
+    // Find the specific recipe in the results
+    const recipe = data.hits.find((hit: any) => 
+      getRecipeIdFromUri(hit.recipe.uri) === recipeId
+    )?.recipe;
+    
+    return recipe as Recipe || null;
   } catch (error) {
     console.error("Error fetching recipe details:", error);
     toast.error("Failed to fetch recipe details. Please try again.");
