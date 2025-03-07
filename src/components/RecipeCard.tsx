@@ -7,6 +7,7 @@ import { Recipe } from "@/services/recipeService";
 import { Clock, Droplet, ThermometerSun, Utensils, Users, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import RecipeDetails from "./RecipeDetails";
+import FavoriteButton from "./FavoriteButton";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -72,10 +73,15 @@ const RecipeCard = ({ recipe, className }: RecipeCardProps) => {
               </div>
             )}
             
+            {/* Favorite button */}
+            <div className="absolute top-2 right-2">
+              <FavoriteButton recipe={recipe} size="sm" />
+            </div>
+            
             {/* Calories overlay */}
             <div className="absolute bottom-2 right-2">
               <Badge 
-                className="bg-black/70 hover:bg-black/80 text-white backdrop-blur-standard px-2 py-1 text-xs" 
+                className="bg-black/70 hover:bg-black/80 text-white backdrop-blur-standard px-2 py-1 text-xs dark:bg-white/20 dark:hover:bg-white/30" 
                 variant="default"
               >
                 {formatNumber(recipe.calories)} cal

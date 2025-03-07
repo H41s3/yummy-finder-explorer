@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import SearchBar from "@/components/SearchBar";
 import FilterOptions from "@/components/FilterOptions";
@@ -10,9 +11,21 @@ import {
   Recipe, 
   SearchFilters
 } from "@/services/recipeService";
-import { Check, ChefHat, ChevronUp, Utensils, Home, ArrowLeft } from "lucide-react";
+import { 
+  Check, ChefHat, ChevronUp, Utensils, Home, 
+  ArrowLeft, Heart, Menu, X 
+} from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ThemeProvider";
+import { useFavorites } from "@/components/FavoritesProvider";
+import FavoritesView from "@/components/FavoritesView";
+
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const Index = () => {
   const [query, setQuery] = useState("");
@@ -21,6 +34,8 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const { favorites } = useFavorites();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,6 +66,7 @@ const Index = () => {
     setLoading(true);
     setHasSearched(true);
     setQuery(searchQuery);
+    setShowFavorites(false);
     
     try {
       const response = await searchRecipes(searchQuery, filters);
@@ -88,30 +104,63 @@ const Index = () => {
     setFilters({});
     setRecipes([]);
     setHasSearched(false);
+    setShowFavorites(false);
     toast.info("Returned to start page");
   };
 
+  const toggleFavorites = () => {
+    setShowFavorites(prev => !prev);
+    if (!showFavorites) {
+      setHasSearched(true);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-blue-50/80 to-white">
-      <header className="border-b bg-white/90 backdrop-blur-md sticky top-0 z-20 transition-all shadow-md">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-blue-50/80 to-white dark:from-slate-900 dark:to-slate-800">
+      <header className="border-b bg-white/90 dark:bg-gray-900/90 backdrop-blur-md sticky top-0 z-20 transition-all shadow-md">
         <div className="container py-4 px-4 md:px-6 max-w-7xl">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <ChefHat className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">Recipe Finder</h1>
+              <h1 className="text-xl font-bold gradient-text">Recipe Finder</h1>
             </div>
             
-            {hasSearched && (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={resetToStart}
-                className="flex items-center gap-1 rounded-full hover:bg-primary/10 transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span className="hidden sm:inline">Back to Start</span>
-              </Button>
-            )}
+            <div className="flex items-center gap-2">
+              {hasSearched && (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={resetToStart}
+                  className="flex items-center gap-1 rounded-full hover:bg-primary/10 transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  <span className="hidden sm:inline">Back to Start</span>
+                </Button>
+              )}
+
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="rounded-full relative"
+                    aria-label="View favorites"
+                  >
+                    <Heart className="h-5 w-5" />
+                    {favorites.length > 0 && (
+                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-white rounded-full text-[10px] flex items-center justify-center">
+                        {favorites.length}
+                      </span>
+                    )}
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="sm:max-w-lg w-[90vw] p-6 overflow-y-auto">
+                  <FavoritesView onClose={() => {}} />
+                </SheetContent>
+              </Sheet>
+              
+              <ThemeToggle />
+            </div>
           </div>
           
           <div className="space-y-4">
@@ -138,6 +187,8 @@ const Index = () => {
           <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in">
             <InitialEmptyState />
           </div>
+        ) : showFavorites ? (
+          <FavoritesView onClose={() => setShowFavorites(false)} className="animate-fade-in" />
         ) : recipes.length === 0 ? (
           <EmptyState />
         ) : (
@@ -169,7 +220,7 @@ const Index = () => {
         )}
       </main>
       
-      <footer className="border-t py-6 text-center text-sm text-muted-foreground bg-gradient-to-b from-white to-blue-50/80">
+      <footer className="border-t py-6 text-center text-sm text-muted-foreground bg-gradient-to-b from-white to-blue-50/80 dark:from-gray-900 dark:to-slate-900/80">
         <div className="container px-4 md:px-6 max-w-7xl">
           <div className="flex items-center justify-center gap-1">
             <Utensils className="h-4 w-4 text-primary/70" />
@@ -182,7 +233,7 @@ const Index = () => {
         variant="secondary"
         size="icon"
         className={cn(
-          "fixed bottom-4 right-4 rounded-full shadow-lg z-10 transition-all duration-300 transform bg-primary/90 text-white hover:bg-primary",
+          "fixed bottom-4 right-4 rounded-full shadow-lg z-10 transition-all duration-300 transform bg-primary/90 text-white hover:bg-primary dark:bg-primary/80",
           showScrollTop ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
         )}
         onClick={scrollToTop}

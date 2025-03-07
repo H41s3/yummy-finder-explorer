@@ -37,9 +37,10 @@ const SearchBar = ({ onSearch, initialQuery = "", className }: SearchBarProps) =
       )}
     >
       <div className={cn(
-        "flex items-center bg-gradient-to-r from-white to-blue-50 rounded-xl border transition-all overflow-hidden",
+        "flex items-center rounded-xl border transition-all overflow-hidden",
         "shadow-md hover:shadow-lg focus-within:shadow-lg",
-        isFocused ? "border-primary/60 ring-2 ring-primary/10" : "border-border"
+        isFocused ? "border-primary/60 ring-2 ring-primary/10" : "border-border",
+        "bg-gradient-to-r from-white to-blue-50 dark:from-slate-800 dark:to-slate-700/70"
       )}>
         <div className="flex items-center pl-4 text-primary/70">
           <Search className="h-5 w-5" />
