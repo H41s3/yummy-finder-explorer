@@ -41,6 +41,9 @@ const SearchBar = ({ onSearch, initialQuery = "", className }: SearchBarProps) =
         "shadow-sm hover:shadow-md focus-within:shadow-md",
         isFocused ? "border-primary ring-2 ring-primary/10" : "border-border"
       )}>
+        <div className="flex items-center pl-4 text-muted-foreground">
+          <Search className="h-5 w-5" />
+        </div>
         <input
           type="text"
           ref={inputRef}
@@ -62,7 +65,8 @@ const SearchBar = ({ onSearch, initialQuery = "", className }: SearchBarProps) =
           disabled={query.trim() === ""}
           aria-label="Search"
         >
-          <Search className="h-5 w-5" />
+          <span className="mr-1 hidden sm:inline">Search</span>
+          <Search className="h-5 w-5 inline-block" />
         </button>
       </div>
     </form>

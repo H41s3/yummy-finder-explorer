@@ -11,7 +11,7 @@ import {
   Recipe, 
   SearchFilters
 } from "@/services/recipeService";
-import { Check, ChefHat, ChevronUp, Utensils } from "lucide-react";
+import { Check, ChefHat, ChevronUp, Utensils, Home, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -86,15 +86,35 @@ const Index = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const resetToStart = () => {
+    setQuery("");
+    setFilters({});
+    setRecipes([]);
+    setHasSearched(false);
+    toast.info("Returned to start page");
+  };
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="border-b bg-white/90 backdrop-blur-md sticky top-0 z-20 transition-all">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-background/95">
+      <header className="border-b bg-white/90 backdrop-blur-md sticky top-0 z-20 transition-all shadow-sm">
         <div className="container py-4 px-4 md:px-6 max-w-7xl">
-          <div className="flex items-center justify-center md:justify-between mb-4">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <ChefHat className="h-6 w-6 text-primary" />
               <h1 className="text-xl font-medium">Recipe Finder</h1>
             </div>
+            
+            {hasSearched && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={resetToStart}
+                className="flex items-center gap-1 rounded-full hover:bg-primary/10 transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span className="hidden sm:inline">Back to Start</span>
+              </Button>
+            )}
           </div>
           
           <div className="space-y-4">
@@ -118,7 +138,7 @@ const Index = () => {
         {loading ? (
           <Loader />
         ) : !hasSearched ? (
-          <div className="flex flex-col items-center justify-center min-h-[60vh]">
+          <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in">
             <InitialEmptyState />
           </div>
         ) : recipes.length === 0 ? (
@@ -153,7 +173,7 @@ const Index = () => {
         )}
       </main>
       
-      <footer className="border-t py-6 text-center text-sm text-muted-foreground">
+      <footer className="border-t py-6 text-center text-sm text-muted-foreground bg-white/50">
         <div className="container px-4 md:px-6 max-w-7xl">
           <div className="flex items-center justify-center gap-1">
             <Utensils className="h-4 w-4" />
