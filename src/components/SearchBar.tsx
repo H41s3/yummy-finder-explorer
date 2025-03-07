@@ -37,11 +37,11 @@ const SearchBar = ({ onSearch, initialQuery = "", className }: SearchBarProps) =
       )}
     >
       <div className={cn(
-        "flex items-center bg-white rounded-xl border transition-all overflow-hidden",
-        "shadow-sm hover:shadow-md focus-within:shadow-md",
-        isFocused ? "border-primary ring-2 ring-primary/10" : "border-border"
+        "flex items-center bg-gradient-to-r from-white to-blue-50 rounded-xl border transition-all overflow-hidden",
+        "shadow-md hover:shadow-lg focus-within:shadow-lg",
+        isFocused ? "border-primary/60 ring-2 ring-primary/10" : "border-border"
       )}>
-        <div className="flex items-center pl-4 text-muted-foreground">
+        <div className="flex items-center pl-4 text-primary/70">
           <Search className="h-5 w-5" />
         </div>
         <input
@@ -59,7 +59,7 @@ const SearchBar = ({ onSearch, initialQuery = "", className }: SearchBarProps) =
           type="submit"
           className={cn(
             "p-3 m-1 rounded-lg transition-all text-white",
-            "bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20",
+            "bg-gradient-to-br from-primary to-blue-600 hover:from-primary/90 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-primary/20",
             query.trim() === "" ? "opacity-80 cursor-not-allowed" : "opacity-100"
           )}
           disabled={query.trim() === ""}

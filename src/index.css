@@ -112,6 +112,14 @@
   .backdrop-blur-standard {
     @apply backdrop-blur-md backdrop-saturate-150;
   }
+  
+  .glass-card {
+    @apply bg-white/90 backdrop-blur-sm border border-white/50 shadow-md;
+  }
+  
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600;
+  }
 }
 
 /* SF Pro Font Loading */

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import SearchBar from "@/components/SearchBar";
 import FilterOptions from "@/components/FilterOptions";
@@ -23,7 +22,6 @@ const Index = () => {
   const [hasSearched, setHasSearched] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Check scroll position for showing scroll-to-top button
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
@@ -33,7 +31,6 @@ const Index = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle search suggestion clicks
   useEffect(() => {
     const handleSuggestionClick = (e: Event) => {
       const customEvent = e as CustomEvent;
@@ -95,13 +92,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-background/95">
-      <header className="border-b bg-white/90 backdrop-blur-md sticky top-0 z-20 transition-all shadow-sm">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-blue-50/80 to-white">
+      <header className="border-b bg-white/90 backdrop-blur-md sticky top-0 z-20 transition-all shadow-md">
         <div className="container py-4 px-4 md:px-6 max-w-7xl">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <ChefHat className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-medium">Recipe Finder</h1>
+              <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">Recipe Finder</h1>
             </div>
             
             {hasSearched && (
@@ -152,7 +149,6 @@ const Index = () => {
                   className={cn(
                     "opacity-0",
                     "animate-slide-up",
-                    // Stagger the animations
                     {
                       "animation-delay-0": index % 4 === 0,
                       "animation-delay-[100ms]": index % 4 === 1,
@@ -173,21 +169,20 @@ const Index = () => {
         )}
       </main>
       
-      <footer className="border-t py-6 text-center text-sm text-muted-foreground bg-white/50">
+      <footer className="border-t py-6 text-center text-sm text-muted-foreground bg-gradient-to-b from-white to-blue-50/80">
         <div className="container px-4 md:px-6 max-w-7xl">
           <div className="flex items-center justify-center gap-1">
-            <Utensils className="h-4 w-4" />
+            <Utensils className="h-4 w-4 text-primary/70" />
             <p>Recipe data provided by <a href="https://www.edamam.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Edamam</a></p>
           </div>
         </div>
       </footer>
       
-      {/* Scroll to top button */}
       <Button
         variant="secondary"
         size="icon"
         className={cn(
-          "fixed bottom-4 right-4 rounded-full shadow-md z-10 transition-all duration-300 transform",
+          "fixed bottom-4 right-4 rounded-full shadow-lg z-10 transition-all duration-300 transform bg-primary/90 text-white hover:bg-primary",
           showScrollTop ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
         )}
         onClick={scrollToTop}
