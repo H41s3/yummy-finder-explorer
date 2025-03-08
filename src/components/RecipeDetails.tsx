@@ -3,11 +3,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Recipe } from "@/services/recipeService";
 import { CalendarDays, Clock, ExternalLink, Flame, Users, X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { DialogTitle } from "./ui/dialog";
 
 interface RecipeDetailsProps {
   recipe: Recipe;
@@ -28,7 +29,10 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full max-h-[100dvh] overflow-hidden">
+    <div className="flex flex-col h-full max-h-[100dvh]">
+      {/* Accessibility title (visually hidden) */}
+      <DialogTitle className="sr-only">{recipe.label}</DialogTitle>
+      
       {/* Header with image */}
       <div className="relative flex-shrink-0">
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
@@ -96,7 +100,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
       </div>
       
       {/* Content tabs */}
-      <Tabs defaultValue="ingredients" className="flex-1 flex flex-col overflow-hidden">
+      <Tabs defaultValue="ingredients" className="flex-1 flex flex-col min-h-0">
         <div className="px-4 border-b flex-shrink-0">
           <TabsList className="w-full justify-start h-auto p-0 bg-transparent space-x-4">
             <TabsTrigger value="ingredients" className="pb-2 pt-2 px-0 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none">Ingredients</TabsTrigger>
@@ -105,28 +109,29 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
           </TabsList>
         </div>
         
-        <div className="flex-1 overflow-hidden">
-          <TabsContent value="ingredients" className="h-full m-0 p-0 overflow-auto">
-            <div className="h-full pb-safe overflow-y-auto">
-              <div className="p-4 space-y-1">
-                <h3 className="font-medium text-lg">Ingredients</h3>
-                <p className="text-sm text-muted-foreground">
-                  {recipe.ingredientLines.length} items
-                </p>
-                
-                <ul className="mt-3 space-y-2">
-                  {recipe.ingredientLines.map((ingredient, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 mt-0.5 text-xs">
-                        {index + 1}
-                      </span>
-                      <span className="text-sm">{ingredient}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+        <div className="flex-1 overflow-hidden relative">
+          <TabsContent 
+            value="ingredients" 
+            className="absolute inset-0 overflow-y-auto overscroll-contain"
+          >
+            <div className="p-4 space-y-1 pb-safe">
+              <h3 className="font-medium text-lg">Ingredients</h3>
+              <p className="text-sm text-muted-foreground">
+                {recipe.ingredientLines.length} items
+              </p>
               
-              <div className="p-4 pt-0 pb-8 mb-4">
+              <ul className="mt-3 space-y-2">
+                {recipe.ingredientLines.map((ingredient, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3 mt-0.5 text-xs">
+                      {index + 1}
+                    </span>
+                    <span className="text-sm">{ingredient}</span>
+                  </li>
+                ))}
+              </ul>
+              
+              <div className="pt-8 pb-16">
                 <Button 
                   variant="outline" 
                   className="w-full" 
@@ -141,34 +146,136 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
             </div>
           </TabsContent>
           
-          <TabsContent value="nutrition" className="h-full m-0 p-0 overflow-auto">
-            <div className="h-full pb-safe overflow-y-auto">
-              <div className="p-4 space-y-1">
-                <h3 className="font-medium text-lg">Nutrition Information</h3>
-                <p className="text-sm text-muted-foreground">
-                  Per serving, based on {recipe.yield} servings
-                </p>
-                
-                <div className="mt-4 space-y-3">
-                  {Object.entries(recipe.totalNutrients)
-                    .filter(([key]) => [
-                      'ENERC_KCAL', 'FAT', 'FASAT', 'CHOCDF', 'FIBTG', 'SUGAR', 'PROCNT', 'CHOLE', 'NA'
-                    ].includes(key))
-                    .map(([key, nutrient]) => {
-                      const perServing = nutrient.quantity / recipe.yield;
-                      return (
-                        <div key={key} className="flex justify-between py-2 border-b border-border/50">
-                          <span className="text-sm">{nutrient.label}</span>
-                          <span className="text-sm font-medium">
-                            {Math.round(perServing)} {nutrient.unit}
-                          </span>
-                        </div>
-                      );
-                    })
-                  }
+          <TabsContent 
+            value="nutrition" 
+            className="absolute inset-0 overflow-y-auto overscroll-contain"
+          >
+            <div className="p-4 space-y-1 pb-safe">
+              <h3 className="font-medium text-lg">Nutrition Information</h3>
+              <p className="text-sm text-muted-foreground">
+                Per serving, based on {recipe.yield} servings
+              </p>
+              
+              <div className="mt-4 space-y-3">
+                {Object.entries(recipe.totalNutrients)
+                  .filter(([key]) => [
+                    'ENERC_KCAL', 'FAT', 'FASAT', 'CHOCDF', 'FIBTG', 'SUGAR', 'PROCNT', 'CHOLE', 'NA'
+                  ].includes(key))
+                  .map(([key, nutrient]) => {
+                    const perServing = nutrient.quantity / recipe.yield;
+                    return (
+                      <div key={key} className="flex justify-between py-2 border-b border-border/50">
+                        <span className="text-sm">{nutrient.label}</span>
+                        <span className="text-sm font-medium">
+                          {Math.round(perServing)} {nutrient.unit}
+                        </span>
+                      </div>
+                    );
+                  })
+                }
+              </div>
+              
+              <div className="pt-8 pb-16">
+                <Button 
+                  variant="outline" 
+                  className="w-full" 
+                  asChild
+                >
+                  <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                    <span>View Full Recipe</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </TabsContent>
+          
+          <TabsContent 
+            value="details" 
+            className="absolute inset-0 overflow-y-auto overscroll-contain"
+          >
+            <div className="p-4 space-y-4 pb-safe">
+              {recipe.dietLabels.length > 0 && (
+                <div>
+                  <h3 className="font-medium mb-2">Diet</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {recipe.dietLabels.map(label => (
+                      <Badge key={label} variant="secondary" className="px-2.5 py-1">
+                        {label}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {recipe.healthLabels.length > 0 && (
+                <div>
+                  <h3 className="font-medium mb-2">Health Labels</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {recipe.healthLabels
+                      .filter(label => !label.includes("_"))
+                      .map(label => (
+                        <Badge key={label} variant="outline" className="px-2.5 py-1">
+                          {capitalize(label.replace(/-/g, ' '))}
+                        </Badge>
+                      ))
+                    }
+                  </div>
+                </div>
+              )}
+              
+              <div>
+                <h3 className="font-medium mb-2">Category</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {recipe.cuisineType?.length > 0 && (
+                    <div>
+                      <span className="text-sm text-muted-foreground">Cuisine</span>
+                      <p className="mt-1">{recipe.cuisineType.map(capitalize).join(', ')}</p>
+                    </div>
+                  )}
+                  
+                  {recipe.mealType?.length > 0 && (
+                    <div>
+                      <span className="text-sm text-muted-foreground">Meal Type</span>
+                      <p className="mt-1">{recipe.mealType.map(capitalize).join(', ')}</p>
+                    </div>
+                  )}
+                  
+                  {recipe.dishType?.length > 0 && (
+                    <div>
+                      <span className="text-sm text-muted-foreground">Dish Type</span>
+                      <p className="mt-1">{recipe.dishType.map(capitalize).join(', ')}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {recipe.cautions.length > 0 && (
+                <div>
+                  <h3 className="font-medium mb-2">Cautions</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {recipe.cautions.map(caution => (
+                      <Badge key={caution} variant="destructive" className="px-2.5 py-1">
+                        {caution}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              <div className="pt-2">
+                <Separator />
+                <div className="mt-4 text-sm text-muted-foreground">
+                  <p>Recipe data provided by <a href="https://www.edamam.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Edamam</a></p>
+                  <p className="mt-1">
+                    <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline flex items-center gap-1">
+                      View original recipe
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </p>
                 </div>
                 
-                <div className="mt-8 mb-4">
+                <div className="pt-8 pb-16">
                   <Button 
                     variant="outline" 
                     className="w-full" 
@@ -179,106 +286,6 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                       <ExternalLink className="h-4 w-4" />
                     </a>
                   </Button>
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="details" className="h-full m-0 p-0 overflow-auto">
-            <div className="h-full pb-safe overflow-y-auto">
-              <div className="p-4 space-y-4">
-                {recipe.dietLabels.length > 0 && (
-                  <div>
-                    <h3 className="font-medium mb-2">Diet</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {recipe.dietLabels.map(label => (
-                        <Badge key={label} variant="secondary" className="px-2.5 py-1">
-                          {label}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {recipe.healthLabels.length > 0 && (
-                  <div>
-                    <h3 className="font-medium mb-2">Health Labels</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {recipe.healthLabels
-                        .filter(label => !label.includes("_"))
-                        .map(label => (
-                          <Badge key={label} variant="outline" className="px-2.5 py-1">
-                            {capitalize(label.replace(/-/g, ' '))}
-                          </Badge>
-                        ))
-                      }
-                    </div>
-                  </div>
-                )}
-                
-                <div>
-                  <h3 className="font-medium mb-2">Category</h3>
-                  <div className="grid grid-cols-2 gap-2">
-                    {recipe.cuisineType?.length > 0 && (
-                      <div>
-                        <span className="text-sm text-muted-foreground">Cuisine</span>
-                        <p className="mt-1">{recipe.cuisineType.map(capitalize).join(', ')}</p>
-                      </div>
-                    )}
-                    
-                    {recipe.mealType?.length > 0 && (
-                      <div>
-                        <span className="text-sm text-muted-foreground">Meal Type</span>
-                        <p className="mt-1">{recipe.mealType.map(capitalize).join(', ')}</p>
-                      </div>
-                    )}
-                    
-                    {recipe.dishType?.length > 0 && (
-                      <div>
-                        <span className="text-sm text-muted-foreground">Dish Type</span>
-                        <p className="mt-1">{recipe.dishType.map(capitalize).join(', ')}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                
-                {recipe.cautions.length > 0 && (
-                  <div>
-                    <h3 className="font-medium mb-2">Cautions</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {recipe.cautions.map(caution => (
-                        <Badge key={caution} variant="destructive" className="px-2.5 py-1">
-                          {caution}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                <div className="pt-2 pb-4">
-                  <Separator />
-                  <div className="mt-4 text-sm text-muted-foreground">
-                    <p>Recipe data provided by <a href="https://www.edamam.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Edamam</a></p>
-                    <p className="mt-1">
-                      <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline flex items-center gap-1">
-                        View original recipe
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </p>
-                  </div>
-                  
-                  <div className="mt-8 mb-4">
-                    <Button 
-                      variant="outline" 
-                      className="w-full" 
-                      asChild
-                    >
-                      <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                        <span>View Full Recipe</span>
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    </Button>
-                  </div>
                 </div>
               </div>
             </div>
