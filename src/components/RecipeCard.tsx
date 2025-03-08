@@ -42,6 +42,12 @@ const RecipeCard = ({ recipe, className }: RecipeCardProps) => {
             "transform transition-all duration-300",
             className
           )}
+          onClick={(e) => {
+            // Only if it's a touch device, prevent propagation
+            if (window.matchMedia('(pointer: coarse)').matches) {
+              e.stopPropagation();
+            }
+          }}
         >
           <div className="relative w-full h-48 overflow-hidden">
             {!isLoaded && (

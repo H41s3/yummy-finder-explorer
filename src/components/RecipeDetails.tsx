@@ -105,7 +105,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
           </TabsList>
         </div>
         
-        <ScrollArea className="flex-1 h-[calc(90vh-16rem)]">
+        <ScrollArea className="flex-1 h-[calc(90vh-16rem)] overflow-y-auto">
           <TabsContent value="ingredients" className="p-4 pt-2 m-0">
             <div className="space-y-1">
               <h3 className="font-medium text-lg">Ingredients</h3>
