@@ -8,9 +8,10 @@ import { cn } from "@/lib/utils";
 interface FavoritesViewProps {
   onClose: () => void;
   className?: string;
+  hideCloseButton?: boolean;
 }
 
-const FavoritesView = ({ onClose, className }: FavoritesViewProps) => {
+const FavoritesView = ({ onClose, className, hideCloseButton = false }: FavoritesViewProps) => {
   const { favorites } = useFavorites();
 
   return (
@@ -20,9 +21,12 @@ const FavoritesView = ({ onClose, className }: FavoritesViewProps) => {
           <Heart className="h-5 w-5 text-destructive" fill="currentColor" />
           <h2 className="text-xl font-semibold">My Favorite Recipes</h2>
         </div>
-        <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full">
-          <X className="h-5 w-5" />
-        </Button>
+        
+        {!hideCloseButton && (
+          <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full">
+            <X className="h-5 w-5" />
+          </Button>
+        )}
       </div>
       
       {favorites.length === 0 ? (

@@ -155,7 +155,7 @@ const Index = () => {
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="sm:max-w-lg w-[90vw] p-6 overflow-y-auto">
-                  <FavoritesView onClose={() => {}} />
+                  <FavoritesView onClose={() => {}} hideCloseButton={true} />
                 </SheetContent>
               </Sheet>
               
