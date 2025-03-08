@@ -28,9 +28,9 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full max-h-[100dvh] overflow-hidden">
       {/* Header with image */}
-      <div className="relative">
+      <div className="relative flex-shrink-0">
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
         <div className="absolute top-2 right-2 z-20">
           <Button
@@ -69,7 +69,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
       </div>
       
       {/* Quick info bar */}
-      <div className="grid grid-cols-3 gap-1 py-3 px-4 border-b">
+      <div className="grid grid-cols-3 gap-1 py-3 px-4 border-b flex-shrink-0">
         <div className="flex flex-col items-center justify-center">
           <div className="flex items-center text-muted-foreground mb-1">
             <Flame className="w-4 h-4 mr-1" />
@@ -97,7 +97,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
       
       {/* Content tabs */}
       <Tabs defaultValue="ingredients" className="flex-1 flex flex-col overflow-hidden">
-        <div className="px-4 border-b">
+        <div className="px-4 border-b flex-shrink-0">
           <TabsList className="w-full justify-start h-auto p-0 bg-transparent space-x-4">
             <TabsTrigger value="ingredients" className="pb-2 pt-2 px-0 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none">Ingredients</TabsTrigger>
             <TabsTrigger value="nutrition" className="pb-2 pt-2 px-0 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none">Nutrition</TabsTrigger>
@@ -106,9 +106,9 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
         </div>
         
         <div className="flex-1 overflow-hidden">
-          <TabsContent value="ingredients" className="h-full m-0 overflow-auto">
-            <ScrollArea className="h-[calc(90vh-16rem)] py-4 px-4">
-              <div className="space-y-1">
+          <TabsContent value="ingredients" className="h-full m-0 p-0 overflow-auto">
+            <div className="h-full pb-safe overflow-y-auto">
+              <div className="p-4 space-y-1">
                 <h3 className="font-medium text-lg">Ingredients</h3>
                 <p className="text-sm text-muted-foreground">
                   {recipe.ingredientLines.length} items
@@ -126,7 +126,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                 </ul>
               </div>
               
-              <div className="mt-6 mb-4">
+              <div className="p-4 pt-0 pb-8 mb-4">
                 <Button 
                   variant="outline" 
                   className="w-full" 
@@ -138,12 +138,12 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                   </a>
                 </Button>
               </div>
-            </ScrollArea>
+            </div>
           </TabsContent>
           
-          <TabsContent value="nutrition" className="h-full m-0 overflow-auto">
-            <ScrollArea className="h-[calc(90vh-16rem)] py-4 px-4">
-              <div className="space-y-1">
+          <TabsContent value="nutrition" className="h-full m-0 p-0 overflow-auto">
+            <div className="h-full pb-safe overflow-y-auto">
+              <div className="p-4 space-y-1">
                 <h3 className="font-medium text-lg">Nutrition Information</h3>
                 <p className="text-sm text-muted-foreground">
                   Per serving, based on {recipe.yield} servings
@@ -167,13 +167,26 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                     })
                   }
                 </div>
+                
+                <div className="mt-8 mb-4">
+                  <Button 
+                    variant="outline" 
+                    className="w-full" 
+                    asChild
+                  >
+                    <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      <span>View Full Recipe</span>
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  </Button>
+                </div>
               </div>
-            </ScrollArea>
+            </div>
           </TabsContent>
           
-          <TabsContent value="details" className="h-full m-0 overflow-auto">
-            <ScrollArea className="h-[calc(90vh-16rem)] py-4 px-4">
-              <div className="space-y-4">
+          <TabsContent value="details" className="h-full m-0 p-0 overflow-auto">
+            <div className="h-full pb-safe overflow-y-auto">
+              <div className="p-4 space-y-4">
                 {recipe.dietLabels.length > 0 && (
                   <div>
                     <h3 className="font-medium mb-2">Diet</h3>
@@ -253,9 +266,22 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                       </a>
                     </p>
                   </div>
+                  
+                  <div className="mt-8 mb-4">
+                    <Button 
+                      variant="outline" 
+                      className="w-full" 
+                      asChild
+                    >
+                      <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                        <span>View Full Recipe</span>
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </ScrollArea>
+            </div>
           </TabsContent>
         </div>
       </Tabs>
