@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import SearchBar from "@/components/SearchBar";
 import FilterOptions from "@/components/FilterOptions";
@@ -51,7 +52,7 @@ const Header = ({
               </Button>
             )}
 
-            <UISheet>
+            <Sheet>
               <SheetTrigger asChild>
                 <Button
                   variant="outline"
@@ -70,7 +71,7 @@ const Header = ({
               <SheetContent side="right" className="sm:max-w-lg w-[90vw] p-6 overflow-y-auto">
                 <FavoritesView onClose={() => {}} hideCloseButton={true} />
               </SheetContent>
-            </UISheet>
+            </Sheet>
             
             <ThemeToggle />
           </div>
