@@ -2,11 +2,10 @@
 import { Button } from "@/components/ui/button";
 import SearchBar from "@/components/SearchBar";
 import FilterOptions from "@/components/FilterOptions";
-import SavedSearches from "@/components/SavedSearches";
-import { ChefHat, ArrowLeft, Heart } from "lucide-react";
+import { ChefHat, ArrowLeft, Heart, Sheet } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeProvider";
 import { SearchFilters } from "@/services/recipeService";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet as UISheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import FavoritesView from "@/components/FavoritesView";
 import { useFavorites } from "@/components/FavoritesProvider";
 import { cn } from "@/lib/utils";
@@ -52,7 +51,7 @@ const Header = ({
               </Button>
             )}
 
-            <Sheet>
+            <UISheet>
               <SheetTrigger asChild>
                 <Button
                   variant="outline"
@@ -71,7 +70,7 @@ const Header = ({
               <SheetContent side="right" className="sm:max-w-lg w-[90vw] p-6 overflow-y-auto">
                 <FavoritesView onClose={() => {}} hideCloseButton={true} />
               </SheetContent>
-            </Sheet>
+            </UISheet>
             
             <ThemeToggle />
           </div>
@@ -82,13 +81,6 @@ const Header = ({
             onSearch={onSearch} 
             initialQuery={query} 
           />
-          
-          {!hasSearched && (
-            <SavedSearches 
-              onSearchSelect={onSearch} 
-              className="mt-3 animate-fade-in" 
-            />
-          )}
           
           {(hasSearched || Object.keys(filters).length > 0) && (
             <FilterOptions 
