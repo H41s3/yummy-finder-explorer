@@ -1,7 +1,7 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -12,7 +12,6 @@ interface SearchBarProps {
 const SearchBar = ({ onSearch, initialQuery = "", className }: SearchBarProps) => {
   const [query, setQuery] = useState(initialQuery);
   const [isFocused, setIsFocused] = useState(false);
-  const [savedSearches, setSavedSearches] = useLocalStorage<string[]>("recipe-finder-searches", []);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -25,20 +24,6 @@ const SearchBar = ({ onSearch, initialQuery = "", className }: SearchBarProps) =
     e.preventDefault();
     if (query.trim()) {
       onSearch(query.trim());
-      saveSearch(query.trim());
-    }
-  };
-
-  const saveSearch = (searchQuery: string) => {
-    if (!savedSearches.includes(searchQuery)) {
-      const updatedSearches = [searchQuery, ...savedSearches].slice(0, 5);
-      setSavedSearches(updatedSearches);
-    } else {
-      const updatedSearches = [
-        searchQuery, 
-        ...savedSearches.filter(s => s !== searchQuery)
-      ];
-      setSavedSearches(updatedSearches);
     }
   };
 
