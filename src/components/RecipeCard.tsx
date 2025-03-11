@@ -17,17 +17,14 @@ const RecipeCard = ({ recipe, className }: RecipeCardProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   
-  // Reset isLoaded state when recipe changes
   useEffect(() => {
     setIsLoaded(false);
   }, [recipe.image]);
 
-  // Format number with commas for thousands
   const formatNumber = (num: number) => {
     return Math.round(num).toLocaleString();
   };
 
-  // Placeholder shimmer effect
   const Shimmer = () => (
     <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent" />
   );
@@ -42,7 +39,6 @@ const RecipeCard = ({ recipe, className }: RecipeCardProps) => {
             className
           )}
           onClick={(e) => {
-            // Only if it's a touch device, prevent propagation
             if (window.matchMedia('(pointer: coarse)').matches) {
               e.stopPropagation();
             }
@@ -66,7 +62,6 @@ const RecipeCard = ({ recipe, className }: RecipeCardProps) => {
               onLoad={() => setIsLoaded(true)}
             />
             
-            {/* Diet label overlay */}
             {recipe.dietLabels.length > 0 && (
               <div className="absolute top-2 left-2">
                 <Badge 
@@ -78,12 +73,10 @@ const RecipeCard = ({ recipe, className }: RecipeCardProps) => {
               </div>
             )}
             
-            {/* Favorite button */}
             <div className="absolute top-2 right-2">
               <FavoriteButton recipe={recipe} size="sm" />
             </div>
             
-            {/* Calories overlay */}
             <div className="absolute bottom-2 right-2">
               <Badge 
                 className="bg-black/70 hover:bg-black/80 text-white backdrop-blur-standard px-2 py-1 text-xs dark:bg-white/20 dark:hover:bg-white/30" 
@@ -133,8 +126,7 @@ const RecipeCard = ({ recipe, className }: RecipeCardProps) => {
         </Card>
       </DialogTrigger>
       
-      {/* Updated DialogContent with max-height for better scrolling */}
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-2xl h-[90vh] p-0">
         <RecipeDetails recipe={recipe} onClose={() => setIsOpen(false)} />
       </DialogContent>
     </Dialog>

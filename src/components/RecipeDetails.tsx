@@ -7,7 +7,6 @@ import { Recipe } from "@/services/recipeService";
 import { CalendarDays, Clock, ExternalLink, Flame, Users, X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { DialogTitle } from "./ui/dialog";
 
 interface RecipeDetailsProps {
@@ -29,7 +28,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="h-full flex flex-col">
       {/* Accessibility title (visually hidden) */}
       <DialogTitle className="sr-only">{recipe.label}</DialogTitle>
       
@@ -100,7 +99,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
       </div>
       
       {/* Content tabs */}
-      <Tabs defaultValue="ingredients" className="flex-1 flex flex-col">
+      <Tabs defaultValue="ingredients" className="flex-1 flex flex-col overflow-hidden">
         <div className="px-4 border-b flex-shrink-0">
           <TabsList className="w-full justify-start h-auto p-0 bg-transparent space-x-4">
             <TabsTrigger value="ingredients" className="pb-2 pt-2 px-0 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none">Ingredients</TabsTrigger>
@@ -108,14 +107,13 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
             <TabsTrigger value="details" className="pb-2 pt-2 px-0 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none">Details</TabsTrigger>
           </TabsList>
         </div>
-        
-        {/* Tab content with proper overflow handling */}
-        <div className="flex-1 overflow-hidden relative flex flex-col">
+
+        <div className="flex-1 overflow-hidden">
           <TabsContent 
             value="ingredients" 
-            className="absolute inset-0 overflow-y-auto"
+            className="h-full overflow-y-auto p-4 pb-20"
           >
-            <div className="p-4 pb-24">
+            <div>
               <h3 className="font-medium text-lg">Ingredients</h3>
               <p className="text-sm text-muted-foreground">
                 {recipe.ingredientLines.length} items
@@ -132,27 +130,13 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                 ))}
               </ul>
             </div>
-            
-            {/* Sticky button at the bottom */}
-            <div className="sticky bottom-0 left-0 right-0 bg-background p-4 shadow-md">
-              <Button 
-                variant="outline" 
-                className="w-full" 
-                asChild
-              >
-                <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                  <span>View Full Recipe</span>
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              </Button>
-            </div>
           </TabsContent>
           
           <TabsContent 
             value="nutrition" 
-            className="absolute inset-0 overflow-y-auto"
+            className="h-full overflow-y-auto p-4 pb-20"
           >
-            <div className="p-4 pb-24">
+            <div>
               <h3 className="font-medium text-lg">Nutrition Information</h3>
               <p className="text-sm text-muted-foreground">
                 Per serving, based on {recipe.yield} servings
@@ -177,27 +161,13 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                 }
               </div>
             </div>
-            
-            {/* Sticky button at the bottom */}
-            <div className="sticky bottom-0 left-0 right-0 bg-background p-4 shadow-md">
-              <Button 
-                variant="outline" 
-                className="w-full" 
-                asChild
-              >
-                <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                  <span>View Full Recipe</span>
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              </Button>
-            </div>
           </TabsContent>
           
           <TabsContent 
             value="details" 
-            className="absolute inset-0 overflow-y-auto"
+            className="h-full overflow-y-auto p-4 pb-20"
           >
-            <div className="p-4 pb-24">
+            <div>
               {recipe.dietLabels.length > 0 && (
                 <div>
                   <h3 className="font-medium mb-2">Diet</h3>
@@ -279,25 +249,26 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                 </div>
               </div>
             </div>
-            
-            {/* Sticky button at the bottom */}
-            <div className="sticky bottom-0 left-0 right-0 bg-background p-4 shadow-md">
-              <Button 
-                variant="outline" 
-                className="w-full" 
-                asChild
-              >
-                <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                  <span>View Full Recipe</span>
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              </Button>
-            </div>
           </TabsContent>
         </div>
       </Tabs>
+
+      {/* Sticky button at the bottom */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-sm border-t">
+        <Button 
+          variant="outline" 
+          className="w-full" 
+          asChild
+        >
+          <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+            <span>View Full Recipe</span>
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </Button>
+      </div>
     </div>
   );
 };
 
 export default RecipeDetails;
+
