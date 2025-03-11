@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -52,7 +51,7 @@ const RecipeCard = ({ recipe, className }: RecipeCardProps) => {
           <div className="relative w-full h-48 overflow-hidden">
             {!isLoaded && (
               <div className="absolute inset-0 bg-muted animate-pulse flex items-center justify-center">
-                <Utensils className="w-8 h-8 text-muted-foreground/40" />
+                <Utensils className="h-8 w-8 text-muted-foreground/40" />
                 <Shimmer />
               </div>
             )}
@@ -134,6 +133,7 @@ const RecipeCard = ({ recipe, className }: RecipeCardProps) => {
         </Card>
       </DialogTrigger>
       
+      {/* Updated DialogContent with max-height for better scrolling */}
       <DialogContent className="sm:max-w-2xl max-h-[90vh] p-0 overflow-hidden">
         <RecipeDetails recipe={recipe} onClose={() => setIsOpen(false)} />
       </DialogContent>

@@ -100,7 +100,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
       </div>
       
       {/* Content tabs */}
-      <Tabs defaultValue="ingredients" className="flex-1 flex flex-col overflow-hidden">
+      <Tabs defaultValue="ingredients" className="flex-1 flex flex-col">
         <div className="px-4 border-b flex-shrink-0">
           <TabsList className="w-full justify-start h-auto p-0 bg-transparent space-x-4">
             <TabsTrigger value="ingredients" className="pb-2 pt-2 px-0 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none">Ingredients</TabsTrigger>
@@ -109,13 +109,13 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
           </TabsList>
         </div>
         
-        {/* Tab content wrapper with overflow handling */}
-        <div className="flex-1 overflow-hidden min-h-0">
+        {/* Tab content with proper overflow handling */}
+        <div className="flex-1 overflow-hidden relative flex flex-col">
           <TabsContent 
             value="ingredients" 
-            className="h-full overflow-y-auto py-4 px-4"
+            className="absolute inset-0 overflow-y-auto"
           >
-            <div className="space-y-1 pb-20">
+            <div className="p-4 pb-24">
               <h3 className="font-medium text-lg">Ingredients</h3>
               <p className="text-sm text-muted-foreground">
                 {recipe.ingredientLines.length} items
@@ -133,8 +133,8 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
               </ul>
             </div>
             
-            {/* Fixed position button at bottom */}
-            <div className="sticky bottom-0 left-0 right-0 bg-background pt-4 pb-6 mt-4">
+            {/* Sticky button at the bottom */}
+            <div className="sticky bottom-0 left-0 right-0 bg-background p-4 shadow-md">
               <Button 
                 variant="outline" 
                 className="w-full" 
@@ -150,9 +150,9 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
           
           <TabsContent 
             value="nutrition" 
-            className="h-full overflow-y-auto py-4 px-4"
+            className="absolute inset-0 overflow-y-auto"
           >
-            <div className="space-y-1 pb-20">
+            <div className="p-4 pb-24">
               <h3 className="font-medium text-lg">Nutrition Information</h3>
               <p className="text-sm text-muted-foreground">
                 Per serving, based on {recipe.yield} servings
@@ -178,8 +178,8 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
               </div>
             </div>
             
-            {/* Fixed position button at bottom */}
-            <div className="sticky bottom-0 left-0 right-0 bg-background pt-4 pb-6 mt-4">
+            {/* Sticky button at the bottom */}
+            <div className="sticky bottom-0 left-0 right-0 bg-background p-4 shadow-md">
               <Button 
                 variant="outline" 
                 className="w-full" 
@@ -195,9 +195,9 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
           
           <TabsContent 
             value="details" 
-            className="h-full overflow-y-auto py-4 px-4"
+            className="absolute inset-0 overflow-y-auto"
           >
-            <div className="space-y-4 pb-20">
+            <div className="p-4 pb-24">
               {recipe.dietLabels.length > 0 && (
                 <div>
                   <h3 className="font-medium mb-2">Diet</h3>
@@ -212,7 +212,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
               )}
               
               {recipe.healthLabels.length > 0 && (
-                <div>
+                <div className="mt-4">
                   <h3 className="font-medium mb-2">Health Labels</h3>
                   <div className="flex flex-wrap gap-2">
                     {recipe.healthLabels
@@ -227,7 +227,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                 </div>
               )}
               
-              <div>
+              <div className="mt-4">
                 <h3 className="font-medium mb-2">Category</h3>
                 <div className="grid grid-cols-2 gap-2">
                   {recipe.cuisineType?.length > 0 && (
@@ -254,7 +254,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
               </div>
               
               {recipe.cautions.length > 0 && (
-                <div>
+                <div className="mt-4">
                   <h3 className="font-medium mb-2">Cautions</h3>
                   <div className="flex flex-wrap gap-2">
                     {recipe.cautions.map(caution => (
@@ -266,7 +266,7 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
                 </div>
               )}
               
-              <div className="pt-2">
+              <div className="pt-4">
                 <Separator />
                 <div className="mt-4 text-sm text-muted-foreground">
                   <p>Recipe data provided by <a href="https://www.edamam.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Edamam</a></p>
@@ -280,8 +280,8 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
               </div>
             </div>
             
-            {/* Fixed position button at bottom */}
-            <div className="sticky bottom-0 left-0 right-0 bg-background pt-4 pb-6 mt-4">
+            {/* Sticky button at the bottom */}
+            <div className="sticky bottom-0 left-0 right-0 bg-background p-4 shadow-md">
               <Button 
                 variant="outline" 
                 className="w-full" 
