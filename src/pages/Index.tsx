@@ -1,31 +1,21 @@
 
 import { useState, useEffect } from "react";
-import SearchBar from "@/components/SearchBar";
-import FilterOptions from "@/components/FilterOptions";
-import RecipeCard from "@/components/RecipeCard";
-import Loader from "@/components/Loader";
-import EmptyState, { InitialEmptyState } from "@/components/EmptyState";
-import { Button } from "@/components/ui/button";
 import { 
   searchRecipes, 
   Recipe, 
   SearchFilters
 } from "@/services/recipeService";
-import { 
-  Check, ChefHat, ChevronUp, Utensils, Home, 
-  ArrowLeft, Heart, Menu, X 
-} from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/ThemeProvider";
-import { useFavorites } from "@/components/FavoritesProvider";
+import { Check, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Loader from "@/components/Loader";
+import EmptyState, { InitialEmptyState } from "@/components/EmptyState";
 import FavoritesView from "@/components/FavoritesView";
-
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import RecipeList from "@/components/recipe/RecipeList";
+import useSortedRecipes, { SortOption } from "@/hooks/useSortedRecipes";
 
 const Index = () => {
   const [query, setQuery] = useState("");
@@ -35,7 +25,10 @@ const Index = () => {
   const [hasSearched, setHasSearched] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
-  const { favorites } = useFavorites();
+  const [sortOption, setSortOption] = useState<SortOption>("default");
+  
+  // Get sorted recipes
+  const sortedRecipes = useSortedRecipes(recipes, sortOption);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -105,6 +98,7 @@ const Index = () => {
     setRecipes([]);
     setHasSearched(false);
     setShowFavorites(false);
+    setSortOption("default");
     toast.info("Returned to start page");
   };
 
@@ -117,68 +111,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-blue-50/80 to-white dark:from-slate-900 dark:to-slate-800">
-      <header className="border-b bg-white/90 dark:bg-gray-900/90 backdrop-blur-md sticky top-0 z-20 transition-all shadow-md">
-        <div className="container py-4 px-4 md:px-6 max-w-7xl">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <ChefHat className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-bold gradient-text">Recipe Finder</h1>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              {hasSearched && (
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={resetToStart}
-                  className="flex items-center gap-1 rounded-full hover:bg-primary/10 transition-colors"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  <span className="hidden sm:inline">Back to Start</span>
-                </Button>
-              )}
-
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="rounded-full relative"
-                    aria-label="View favorites"
-                  >
-                    <Heart className="h-5 w-5" />
-                    {favorites.length > 0 && (
-                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-white rounded-full text-[10px] flex items-center justify-center">
-                        {favorites.length}
-                      </span>
-                    )}
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="sm:max-w-lg w-[90vw] p-6 overflow-y-auto">
-                  <FavoritesView onClose={() => {}} hideCloseButton={true} />
-                </SheetContent>
-              </Sheet>
-              
-              <ThemeToggle />
-            </div>
-          </div>
-          
-          <div className="space-y-4">
-            <SearchBar 
-              onSearch={handleSearch} 
-              initialQuery={query} 
-            />
-            
-            {(hasSearched || Object.keys(filters).length > 0) && (
-              <FilterOptions 
-                filters={filters} 
-                onFilterChange={handleFilterChange} 
-                className="animate-fade-in" 
-              />
-            )}
-          </div>
-        </div>
-      </header>
+      <Header 
+        query={query}
+        filters={filters}
+        hasSearched={hasSearched}
+        onSearch={handleSearch}
+        onFilterChange={handleFilterChange}
+        onResetToStart={resetToStart}
+      />
       
       <main className="flex-1 container px-4 py-6 md:px-6 max-w-7xl">
         {loading ? (
@@ -192,42 +132,15 @@ const Index = () => {
         ) : recipes.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {recipes.map((recipe, index) => (
-                <div 
-                  key={recipe.uri} 
-                  className={cn(
-                    "opacity-0",
-                    "animate-slide-up",
-                    {
-                      "animation-delay-0": index % 4 === 0,
-                      "animation-delay-[100ms]": index % 4 === 1,
-                      "animation-delay-[200ms]": index % 4 === 2,
-                      "animation-delay-[300ms]": index % 4 === 3,
-                    }
-                  )}
-                  style={{
-                    animationFillMode: "forwards",
-                    animationDelay: `${(index % 4) * 100}ms`,
-                  }}
-                >
-                  <RecipeCard recipe={recipe} />
-                </div>
-              ))}
-            </div>
-          </div>
+          <RecipeList 
+            recipes={sortedRecipes} 
+            sortOption={sortOption} 
+            onSortChange={setSortOption} 
+          />
         )}
       </main>
       
-      <footer className="border-t py-6 text-center text-sm text-muted-foreground bg-gradient-to-b from-white to-blue-50/80 dark:from-gray-900 dark:to-slate-900/80">
-        <div className="container px-4 md:px-6 max-w-7xl">
-          <div className="flex items-center justify-center gap-1">
-            <Utensils className="h-4 w-4 text-primary/70" />
-            <p>Recipe data provided by <a href="https://www.edamam.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Edamam</a></p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
       
       <Button
         variant="secondary"
