@@ -30,11 +30,11 @@ const Header = ({
   const { favorites } = useFavorites();
 
   return (
-    <header className="border-b bg-white/90 dark:bg-gray-900/90 backdrop-blur-md sticky top-0 z-20 transition-all shadow-md">
+    <header className="border-b border-white/10 bg-background backdrop-blur-md sticky top-0 z-20 transition-all shadow-md">
       <div className="container py-4 px-4 md:px-6 max-w-7xl">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <ChefHat className="h-6 w-6 text-primary" />
+            <ChefHat className="h-6 w-6 text-purple-500" />
             <h1 className="text-xl font-bold gradient-text">Cuisinefy</h1>
           </div>
           
@@ -44,7 +44,7 @@ const Header = ({
                 variant="outline" 
                 size="sm" 
                 onClick={onResetToStart}
-                className="flex items-center gap-1 rounded-full hover:bg-primary/10 transition-colors"
+                className="flex items-center gap-1 rounded-full hover:bg-purple-500/10 transition-colors border-purple-500/20"
               >
                 <ArrowLeft className="h-4 w-4" />
                 <span className="hidden sm:inline">Back to Start</span>
@@ -56,7 +56,7 @@ const Header = ({
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full relative"
+                  className="rounded-full relative border-purple-500/20 hover:bg-purple-500/10"
                   aria-label="View favorites"
                 >
                   <Heart className="h-5 w-5" />
@@ -67,7 +67,7 @@ const Header = ({
                   )}
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="sm:max-w-lg w-[90vw] p-6 overflow-y-auto">
+              <SheetContent side="right" className="sm:max-w-lg w-[90vw] p-6 overflow-y-auto border-l border-white/10 bg-card/95 backdrop-blur-md">
                 <FavoritesView onClose={() => {}} hideCloseButton={true} />
               </SheetContent>
             </Sheet>

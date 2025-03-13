@@ -62,7 +62,20 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				purple: {
+					50: '#f5f3ff',
+					100: '#ede9fe',
+					200: '#ddd6fe',
+					300: '#c4b5fd',
+					400: '#a78bfa',
+					500: '#8b5cf6',
+					600: '#7c3aed',
+					700: '#6d28d9',
+					800: '#5b21b6',
+					900: '#4c1d95',
+					950: '#2e1065',
+				},
 			},
 			fontFamily: {
 				sans: ['SF Pro Display', 'system-ui', 'sans-serif'],
@@ -100,6 +113,10 @@ export default {
 				},
 				shimmer: {
 					'100%': { transform: 'translateX(100%)' }
+				},
+				glow: {
+					'0%, 100%': { opacity: '1', boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)' },
+					'50%': { opacity: '0.6', boxShadow: '0 0 30px rgba(139, 92, 246, 0.8)' }
 				}
 			},
 			animation: {
@@ -109,8 +126,15 @@ export default {
 				'slide-up': 'slideUp 0.5s ease-out forwards',
 				'slide-down': 'slideDown 0.5s ease-out forwards',
 				'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-				shimmer: 'shimmer 2s infinite'
-			}
+				shimmer: 'shimmer 2s infinite',
+				glow: 'glow 3s ease-in-out infinite'
+			},
+			backgroundImage: {
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+				'purple-gradient': 'linear-gradient(to right, #4c1d95, #7c3aed)',
+				'card-gradient': 'linear-gradient(145deg, rgba(139, 92, 246, 0.05), rgba(124, 58, 237, 0.1))',
+				'hero-gradient': 'radial-gradient(circle at center, #5b21b6 0%, #4c1d95 30%, #2e1065 70%)',
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
