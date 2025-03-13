@@ -2,10 +2,10 @@
 import { Button } from "@/components/ui/button";
 import SearchBar from "@/components/SearchBar";
 import FilterOptions from "@/components/FilterOptions";
-import { ChefHat, ArrowLeft, Heart, Sheet } from "lucide-react";
+import { ChefHat, ArrowLeft, Heart } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeProvider";
 import { SearchFilters } from "@/services/recipeService";
-import { Sheet as UISheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import FavoritesView from "@/components/FavoritesView";
 import { useFavorites } from "@/components/FavoritesProvider";
 import { cn } from "@/lib/utils";
@@ -35,7 +35,7 @@ const Header = ({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <ChefHat className="h-6 w-6 text-primary" />
-            <h1 className="text-xl font-bold gradient-text">Recipe Finder</h1>
+            <h1 className="text-xl font-bold gradient-text">Cuisinefy</h1>
           </div>
           
           <div className="flex items-center gap-2">
@@ -51,7 +51,7 @@ const Header = ({
               </Button>
             )}
 
-            <UISheet>
+            <Sheet>
               <SheetTrigger asChild>
                 <Button
                   variant="outline"
@@ -70,7 +70,7 @@ const Header = ({
               <SheetContent side="right" className="sm:max-w-lg w-[90vw] p-6 overflow-y-auto">
                 <FavoritesView onClose={() => {}} hideCloseButton={true} />
               </SheetContent>
-            </UISheet>
+            </Sheet>
             
             <ThemeToggle />
           </div>
