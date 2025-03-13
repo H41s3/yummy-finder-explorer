@@ -30,15 +30,17 @@ const Header = ({
   const { favorites } = useFavorites();
 
   return (
-    <header className="border-b border-white/10 bg-background backdrop-blur-md sticky top-0 z-20 transition-all shadow-md">
+    <header className="border-b border-white/10 bg-background/80 backdrop-blur-md sticky top-0 z-20 transition-all shadow-lg">
       <div className="container py-4 px-4 md:px-6 max-w-7xl">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <ChefHat className="h-6 w-6 text-purple-500" />
+            <div className="bg-purple-500/10 p-2 rounded-full">
+              <ChefHat className="h-6 w-6 text-purple-500" />
+            </div>
             <h1 className="text-xl font-bold gradient-text">Cuisinefy</h1>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {hasSearched && (
               <Button 
                 variant="outline" 

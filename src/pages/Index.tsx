@@ -7,7 +7,7 @@ import {
 } from "@/services/recipeService";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { Check, ChevronUp } from "lucide-react";
+import { Check, ChevronUp, ChefHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
 import EmptyState, { InitialEmptyState } from "@/components/EmptyState";
@@ -110,7 +110,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-blue-50/80 to-white dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background via-purple-950/30 to-purple-900/20 dark:from-slate-900 dark:to-slate-800">
       <Header 
         query={query}
         filters={filters}
@@ -124,8 +124,55 @@ const Index = () => {
         {loading ? (
           <Loader />
         ) : !hasSearched ? (
-          <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in">
-            <InitialEmptyState />
+          <div className="flex flex-col items-center justify-center min-h-[75vh] animate-fade-in">
+            <div className="text-center max-w-3xl mx-auto glass-morphism p-8 md:p-12 mb-8">
+              <div className="mx-auto w-20 h-20 bg-purple-500/20 flex items-center justify-center rounded-full mb-6">
+                <ChefHat className="h-10 w-10 text-purple-400" />
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+                Discover Delicious Recipes
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground mb-8">
+                Explore thousands of recipes from around the world and find your next culinary masterpiece
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                {[
+                  { title: "Easy Search", description: "Find recipes by ingredients, cuisine, or dietary needs" },
+                  { title: "Save Favorites", description: "Keep track of recipes you love for later" },
+                  { title: "Detailed Info", description: "Get nutritional data and cooking instructions" }
+                ].map((feature, index) => (
+                  <div 
+                    key={index} 
+                    className="p-4 rounded-lg bg-purple-500/5 border border-purple-500/10 hover:bg-purple-500/10 transition-all"
+                  >
+                    <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="flex flex-col items-center gap-2">
+                <p className="text-sm text-muted-foreground mb-1">Try searching for:</p>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {["Chicken pasta", "Vegetarian", "Quick breakfast", "Italian"].map((suggestion) => (
+                    <Button 
+                      key={suggestion} 
+                      variant="outline" 
+                      className="rounded-full border-purple-500/20 hover:bg-purple-500/10 transition-colors"
+                      onClick={() => {
+                        const event = new CustomEvent("suggestion-click", {
+                          detail: { query: suggestion }
+                        });
+                        window.dispatchEvent(event);
+                      }}
+                    >
+                      {suggestion}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         ) : showFavorites ? (
           <FavoritesView onClose={() => setShowFavorites(false)} className="animate-fade-in" />
@@ -146,7 +193,7 @@ const Index = () => {
         variant="secondary"
         size="icon"
         className={cn(
-          "fixed bottom-4 right-4 rounded-full shadow-lg z-10 transition-all duration-300 transform bg-primary/90 text-white hover:bg-primary dark:bg-primary/80",
+          "fixed bottom-4 right-4 rounded-full shadow-lg z-10 transition-all duration-300 transform purple-gradient text-white hover:opacity-90",
           showScrollTop ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
         )}
         onClick={scrollToTop}

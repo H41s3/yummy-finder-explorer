@@ -133,6 +133,22 @@
   .purple-border-glow {
     @apply border border-purple-500/50 shadow-[0_0_10px_rgba(139,92,246,0.3)];
   }
+  
+  .glass-morphism {
+    @apply backdrop-blur-xl bg-white/5 border border-white/20 rounded-lg shadow-lg;
+  }
+  
+  .neo-blur {
+    @apply backdrop-blur-2xl bg-black/40 border border-white/10;
+  }
+  
+  .purple-gradient {
+    @apply bg-gradient-to-br from-purple-600 via-purple-500 to-fuchsia-600;
+  }
+  
+  .hero-backdrop {
+    @apply bg-gradient-to-b from-purple-900/20 via-purple-950/30 to-purple-950/60 backdrop-blur-md;
+  }
 }
 
 /* SF Pro Font Loading */
