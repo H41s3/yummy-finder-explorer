@@ -16,7 +16,7 @@ interface RecipeDetailsProps {
 
 const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col overflow-hidden">
       {/* Accessibility title (visually hidden) */}
       <DialogTitle className="sr-only">{recipe.label}</DialogTitle>
       
@@ -36,24 +36,24 @@ const RecipeDetails = ({ recipe, onClose }: RecipeDetailsProps) => {
           </TabsList>
         </div>
 
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-y-auto" tabIndex={0}>
           <TabsContent 
             value="ingredients" 
-            className="h-full overflow-y-auto p-4 pb-20"
+            className="mt-0 p-4 pb-20"
           >
             <IngredientsTab recipe={recipe} />
           </TabsContent>
           
           <TabsContent 
             value="nutrition" 
-            className="h-full overflow-y-auto p-4 pb-20"
+            className="mt-0 p-4 pb-20"
           >
             <NutritionTab recipe={recipe} />
           </TabsContent>
           
           <TabsContent 
             value="details" 
-            className="h-full overflow-y-auto p-4 pb-20"
+            className="mt-0 p-4 pb-20"
           >
             <DetailsTab recipe={recipe} />
           </TabsContent>
