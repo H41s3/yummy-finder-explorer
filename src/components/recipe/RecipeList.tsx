@@ -19,7 +19,7 @@ const RecipeList = ({ recipes, sortOption, onSortChange }: RecipeListProps) => {
           <select
             value={sortOption}
             onChange={(e) => onSortChange(e.target.value as SortOption)}
-            className="text-sm p-1 border rounded bg-background"
+            className="text-sm p-1 border rounded bg-background focus-ring"
           >
             <option value="default">Default</option>
             <option value="calories-asc">Calories (Low to High)</option>
