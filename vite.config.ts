@@ -6,7 +6,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/cuisinefy/", // GitHub Pages repository name
+  base: "/Cuisinefy/", // GitHub Pages repository name with correct capitalization
   server: {
     host: "::",
     port: 8080,

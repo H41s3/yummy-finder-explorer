@@ -5,7 +5,7 @@ A beautiful recipe search application built with React, TypeScript, and Tailwind
 
 ## Live Demo
 
-Visit the live site: [Cuisinefy](https://yourusername.github.io/cuisinefy/)
+Visit the live site: [Cuisinefy](https://h41s3.github.io/Cuisinefy/)
 
 ## Features
 
@@ -26,8 +26,8 @@ Visit the live site: [Cuisinefy](https://yourusername.github.io/cuisinefy/)
 
 1. Clone this repository
    ```bash
-   git clone https://github.com/yourusername/cuisinefy.git
-   cd cuisinefy
+   git clone https://github.com/H41s3/Cuisinefy.git
+   cd Cuisinefy
    ```
 
 2. Install dependencies
