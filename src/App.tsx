@@ -11,9 +11,7 @@ import { FavoritesProvider } from "./components/FavoritesProvider";
 
 const queryClient = new QueryClient();
 
-// Get the base URL from the import.meta.env or use the default for GitHub Pages
-const baseUrl = import.meta.env.BASE_URL || '/';
-
+// Use a relative path instead of baseUrl
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="light">
@@ -21,7 +19,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter basename={baseUrl}>
+          <BrowserRouter basename="./">
             <Routes>
               <Route path="/" element={<Index />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
