@@ -1,66 +1,69 @@
+# Welcome to your Lovable project
 
-# Cuisinefy - Recipe Finder Application
+## Project info
 
-A beautiful recipe search application built with React, TypeScript, and Tailwind CSS.
+**URL**: https://lovable.dev/projects/d6c6b32a-91b0-4cfc-b482-0800f6533bba
 
-## Live Demo
+## How can I edit this code?
 
-Visit the live site: [Cuisinefy](https://h41s3.github.io/Cuisinefy/)
+There are several ways of editing your application.
 
-## Features
+**Use Lovable**
 
-- Search recipes by ingredients, cuisine, or dietary needs
-- Filter by diet, health requirements, meal type, and more
-- View detailed nutritional information
-- Save favorite recipes
-- Responsive design for all devices
+Simply visit the [Lovable Project](https://lovable.dev/projects/d6c6b32a-91b0-4cfc-b482-0800f6533bba) and start prompting.
 
-## Getting Started
+Changes made via Lovable will be committed automatically to this repo.
 
-### Prerequisites
+**Use your preferred IDE**
 
-- Node.js (v14+)
-- npm or yarn
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-### Installation
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-1. Clone this repository
-   ```bash
-   git clone https://github.com/H41s3/Cuisinefy.git
-   cd Cuisinefy
-   ```
+Follow these steps:
 
-2. Install dependencies
-   ```bash
-   npm install
-   ```
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
 
-3. Start the development server
-   ```bash
-   npm run dev
-   ```
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
 
-### Deployment
+# Step 3: Install the necessary dependencies.
+npm i
 
-The project is set up to deploy automatically to GitHub Pages using GitHub Actions. Simply push to the main branch, and your changes will be deployed.
-
-#### Manual Deployment
-
-You can also deploy manually:
-
-```bash
-npm run build
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
 ```
 
-Then push the `dist` folder to your GitHub Pages branch.
+**Edit a file directly in GitHub**
 
-## API Usage
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
 
-This project uses the Edamam Recipe API with public demo credentials that have rate limitations. For production use:
+**Use GitHub Codespaces**
 
-1. Register for your own API credentials at [Edamam Developer Portal](https://developer.edamam.com/edamam-recipe-api)
-2. Modify the `getApiCredentials` function in `src/services/recipeService.ts` to use your credentials.
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## License
+## What technologies are used for this project?
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is built with .
+
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
+
+## How can I deploy this project?
+
+Simply open [Lovable](https://lovable.dev/projects/d6c6b32a-91b0-4cfc-b482-0800f6533bba) and click on Share -> Publish.
+
+## I want to use a custom domain - is that possible?
+
+We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)

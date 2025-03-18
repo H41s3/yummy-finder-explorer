@@ -11,7 +11,6 @@ import { FavoritesProvider } from "./components/FavoritesProvider";
 
 const queryClient = new QueryClient();
 
-// Use a relative path instead of baseUrl
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="light">
@@ -19,7 +18,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter basename="./">
+          <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

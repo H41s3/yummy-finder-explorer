@@ -1,3 +1,4 @@
+
 import { toast } from "sonner";
 
 // Recipe types
@@ -86,18 +87,10 @@ export const cuisineTypeOptions = [
   { value: "middle eastern", label: "Middle Eastern" },
 ];
 
-// Get API credentials - using public-friendly pattern
-// This uses embedded demo credentials that work with limited rate
-// but won't expose your personal API key
-const getApiCredentials = () => {
-  // These are intentionally public demo credentials with limited quota
-  // Replace with your own credentials in production by modifying this function
-  return {
-    appId: "1cca6c9e",
-    appKey: "efcce1fe33a0d50554e770dd746995d2"
-  };
-};
-
+// Edamam API configuration
+// Updated with the specific credentials provided
+const APP_ID = "1cca6c9e";
+const APP_KEY = "efcce1fe33a0d50554e770dd746995d2";
 const BASE_URL = "https://api.edamam.com/search";
 
 export const searchRecipes = async (
@@ -107,13 +100,11 @@ export const searchRecipes = async (
   to = 20
 ): Promise<RecipeResponse> => {
   try {
-    const { appId, appKey } = getApiCredentials();
-    
     // Build URL with search query and filters
     const params = new URLSearchParams({
       q: query,
-      app_id: appId,
-      app_key: appKey,
+      app_id: APP_ID,
+      app_key: APP_KEY,
       from: from.toString(),
       to: to.toString(),
     });
@@ -145,15 +136,13 @@ export const searchRecipes = async (
 // Get recipe by ID
 export const getRecipeById = async (id: string): Promise<Recipe | null> => {
   try {
-    const { appId, appKey } = getApiCredentials();
-    
     // For the search API, we need to re-query and find the recipe by ID
     // This is different from the recipes/v2 endpoint which has a direct ID lookup
     const recipeId = id.replace("http://www.edamam.com/ontologies/edamam.owl#recipe_", "");
     
     const params = new URLSearchParams({
-      app_id: appId,
-      app_key: appKey,
+      app_id: APP_ID,
+      app_key: APP_KEY,
       q: recipeId,
     });
 
